@@ -1,0 +1,86 @@
+openapi: "3.0.3"
+info:
+  title: ShoppingKuy
+  version: "1.0"
+servers:
+  - url: http://localhost/3000/api/v1
+    description: local
+  - url: https://shopping-kuy/api/v1
+    description: Deploy
+paths:
+  /users/register:
+    post:
+      tags:
+        - Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: JohnDoe345
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  example: johndoe345@gmail.com
+                password:
+                  type: string
+                  example: passwd234
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Register successfull.
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: number
+                        example: 1
+                      username:
+                        type: string
+                        example: JohnDoe345
+                      first_name:
+                        type: string
+                        example: John
+                      last_name:
+                        type: string
+                        example: Doe
+                      email:
+                        type: string
+                        example: johndoe345@gmail.com
+                      access_token:
+                        type: string
+                        example:
+                      refresh_token:
+                        type: string
+                        example:
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Please fill out the form correctly.
