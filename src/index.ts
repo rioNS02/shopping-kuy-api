@@ -9,5 +9,5 @@ app.use("/", router);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Port running in port ${port}`);
+  console.log(`Port running in http://localhost:${port}`);
 });
