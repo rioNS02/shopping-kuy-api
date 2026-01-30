@@ -8,15 +8,23 @@ servers:
   - url: https://shopping-kuy/api/v1
     description: Deploy
 paths:
-  /users/register:
+  /auth/register:
     post:
       tags:
-        - Users
+        - Authentication
+      description: Create new user and send OTP code.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
+              required:
+                - username
+                - first_name
+                - last_name
+                - email
+                - password
               properties:
                 username:
                   type: string
@@ -46,25 +54,69 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: Register successfull.
+                    example: Kode OTP dikirim ke email kamu.
                   data:
                     type: object
                     properties:
                       user_id:
                         type: number
                         example: 1
-                      username:
-                        type: string
-                        example: JohnDoe345
-                      first_name:
-                        type: string
-                        example: John
-                      last_name:
-                        type: string
-                        example: Doe
                       email:
                         type: string
                         example: johndoe345@gmail.com
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tolong isi semua formulir.
+  # Verify token
+  /auth/verify-token:
+    post:
+      tags:
+        - Authentication
+      description: Verification OTP and activate account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - otp
+              properties:
+                email:
+                  type: string
+                  example: johndoe345@gmail.com
+                otp:
+                  type: string
+                  example: 12345
+
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Verifikasi Akun sukses.
+                  data:
+                    type: object
+                    properties:
                       access_token:
                         type: string
                         example:
@@ -83,4 +135,4 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: Please fill out the form correctly.
+                    example: Tolong masukkan otp yang benar.
