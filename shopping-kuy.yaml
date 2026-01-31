@@ -78,7 +78,7 @@ paths:
                     type: string
                     example: Tolong isi semua formulir.
   # Verify token
-  /auth/verify-token:
+  /auth/verify-otp:
     post:
       tags:
         - Authentication
