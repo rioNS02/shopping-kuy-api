@@ -20,7 +20,8 @@ export const register = async (req: Request, res: Response) => {
 
   try {
     // Cek username already register
-    const { username, first_name, last_name, email, password } = parsed.data;
+    const { username, first_name, last_name, email, password, role } =
+      parsed.data;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) return res.json({ message: "Username sudah digunakan." });
@@ -33,6 +34,7 @@ export const register = async (req: Request, res: Response) => {
         last_name,
         email,
         password: hashPassword,
+        role: role,
       },
     });
 
@@ -41,6 +43,7 @@ export const register = async (req: Request, res: Response) => {
       first_name,
       last_name,
       email,
+      role,
     };
 
     const accessToken = process.env.ACCESS_TOKEN;
