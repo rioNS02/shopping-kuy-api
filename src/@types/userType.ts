@@ -6,9 +6,5 @@ export const UserSchema = z.object({
   last_name: z.string(),
   email: z.email(),
   password: z.string().min(8),
-});
-
-export const OtpSchema = z.object({
-  token: z.string().min(5).max(5),
-  expired_at: z.iso.datetime(),
+  role: z.enum(["ADMIN", "CUSTOMER", "SELLER"]),
 });
