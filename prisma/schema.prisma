@@ -14,24 +14,40 @@ datasource db {
 }
 
 model User {
-  id     Int     @id @default(autoincrement())
-  username    String  @unique
-  first_name  String  @db.VarChar(255)
-  last_name   String? @db.VarChar(255)
-  email       String  @unique @db.VarChar(255)
-  password    String  @db.VarChar(255)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  wallet      Wallet?
+  id          Int       @id @default(autoincrement())
+  username    String    @unique
+  firstName   String    @db.VarChar(255)
+  lastName    String?   @db.VarChar(255)
+  email       String    @unique @db.VarChar(255)
+  password    String    @db.VarChar(255)
+  role        Role      @default(CUSTOMER)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  customer    Customer?
+  seller      Seller?
 
   @@map("users")
 }
 
-model Wallet {
-  id Int @id @default(autoincrement())
-  balance Decimal 
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int @unique
+enum Role {
+  ADMIN
+  CUSTOMER
+  SELLER
+}
 
-  @@map("wallets")
+model Customer {
+  id      Int   @id @default(autoincrement())
+  user    User  @relation(fields: [userId], references: [id])
+  userId  Int   @unique
+
+  @@map("customers")
+}
+
+model Seller {
+  id         Int @id @default(autoincrement())
+  store_name String @db.VarChar(255)
+  user       User @relation(fields: [userId], references: [id])
+  userId     Int @unique
+
+  @@map("sellers")
 }
