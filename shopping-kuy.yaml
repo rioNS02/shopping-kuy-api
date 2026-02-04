@@ -8,11 +8,11 @@ servers:
   - url: https://shopping-kuy/api/v1
     description: Deploy
 paths:
-  /dashboard/:
+  /admin/users:
     get:
       tags:
         - Dashboard
-      description: Get all customer and seller
+      description: Get all users
       responses:
         "200":
           description: OK
