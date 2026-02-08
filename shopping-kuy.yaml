@@ -74,6 +74,73 @@ paths:
                   message:
                     type: string
                     example: Data user tidak ditemukan.
+  /admin/users/{id}:
+    get:
+      tags:
+        - Dashboard
+      description: Get user by Id
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user_id:
+                          type: number
+                        username:
+                          type: string
+                        first_name:
+                          type: string
+                        last_name:
+                          type: string
+                        email:
+                          type: string
+                        role:
+                          type: string
+                          enum:
+                            - CUSTOMER
+                            - SELLER
+              example:
+                success: true
+                message: Sukses ambil data user
+                data:
+                  - user_id: 1
+                    username: johndoe345
+                    first_name: John
+                    last_name: Doe
+                    email: johndoe345@gmail.com
+                    role: CUSTOMER
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data user tidak ditemukan.
 
   /auth/register:
     post:
