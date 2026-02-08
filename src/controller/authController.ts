@@ -6,8 +6,6 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import { UserSchema } from "../@types/userType";
 
-//Validation User model
-
 export const register = async (req: Request, res: Response) => {
   const parsed = UserSchema.safeParse(req.body);
 
@@ -20,7 +18,7 @@ export const register = async (req: Request, res: Response) => {
 
   try {
     // Cek username already register
-    const { username, first_name, last_name, email, password, role } =
+    const { username, firstName, lastName, email, password, role } =
       parsed.data;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -30,8 +28,8 @@ export const register = async (req: Request, res: Response) => {
     const user = await prisma.user.create({
       data: {
         username,
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         password: hashPassword,
         role: role,
@@ -40,8 +38,8 @@ export const register = async (req: Request, res: Response) => {
 
     const payload = {
       username,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
       role,
     };
