@@ -3,4 +3,4 @@ import { getAllUsers } from "../controller/adminController";
 
 export const router = express.Router();
 
-router.post("/admin/users", getAllUsers);
+router.get("/admin/users", getAllUsers);
