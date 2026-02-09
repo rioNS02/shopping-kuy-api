@@ -4,14 +4,7 @@ import bcrypt from "bcrypt";
 import z from "zod";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-
-const UserSchema = z.object({
-  username: z.string(),
-  first_name: z.string(),
-  last_name: z.string(),
-  email: z.email(),
-  password: z.string().min(8),
-});
+import { UserSchema } from "../@types/userType";
 
 //Validation User model
 
@@ -27,7 +20,7 @@ export const register = async (req: Request, res: Response) => {
 
   try {
     // Cek username already register
-    const { username, first_name, last_name, email, password } = parsed.data;
+    const { username, firstName, lastName, email, password } = parsed.data;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) return res.json({ message: "Username sudah digunakan." });
@@ -36,8 +29,8 @@ export const register = async (req: Request, res: Response) => {
     const user = await prisma.user.create({
       data: {
         username,
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         password: hashPassword,
       },
@@ -45,8 +38,8 @@ export const register = async (req: Request, res: Response) => {
 
     const payload = {
       username,
-      first_name,
-      last_name,
+      firstName,
+      lastName,
       email,
     };
 
