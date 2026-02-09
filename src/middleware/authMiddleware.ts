@@ -8,7 +8,7 @@ export const authMiddleware = async (
   next: NextFunction,
 ) => {
   const authorization = req.headers.authorization;
-  const token = authorization?.split(" ")[0]!;
+  const token = authorization?.split(" ")[1]!;
 
   try {
     if (!authorization)
