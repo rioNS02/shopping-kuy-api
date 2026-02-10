@@ -4,12 +4,10 @@ import bcrypt from "bcrypt";
 import z from "zod";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { UserSchema } from "../@types/userType";
-
-//Validation User model
+import { RegisterSchema } from "../@types/userType";
 
 export const register = async (req: Request, res: Response) => {
-  const parsed = UserSchema.safeParse(req.body);
+  const parsed = RegisterSchema.safeParse(req.body);
 
   // Validation parsing error
   if (!parsed.success) {
@@ -19,10 +17,10 @@ export const register = async (req: Request, res: Response) => {
   }
 
   try {
-    // Cek username already register
     const { username, firstName, lastName, email, password } = parsed.data;
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    // Cek username already register
+    const existingUser = await prisma.user.findUnique({ where: { username } });
     if (existingUser) return res.json({ message: "Username sudah digunakan." });
     const hashPassword = await bcrypt.hash(password, 10);
 
@@ -64,6 +62,6 @@ export const register = async (req: Request, res: Response) => {
       token,
     });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ success: false, error: "Internal server error." });
   }
 };
