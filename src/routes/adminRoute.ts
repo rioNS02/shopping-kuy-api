@@ -1,5 +1,9 @@
 import express from "express";
-import { getAllUsers, getUsersById } from "../controller/adminController";
+import {
+  deleteUsersByUsername,
+  getAllUsers,
+  getUsersById,
+} from "../controller/adminController";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { roleMiddleware } from "../middleware/roleMiddleware";
 
@@ -16,4 +20,10 @@ router.get(
   authMiddleware,
   roleMiddleware(["ADMIN"]),
   getUsersById,
+);
+router.delete(
+  "/admin/users/:username",
+  authMiddleware,
+  roleMiddleware(["ADMIN"]),
+  deleteUsersByUsername,
 );
