@@ -15,3 +15,8 @@ export const idUserSchema = UserBaseSchema.extend({
 export const RegisterSchema = UserBaseSchema.extend({
   password: z.string().min(8),
 });
+
+export const loginSchema = UserBaseSchema.extend({
+  username: z.string(),
+  passsword: z.string().min(8),
+});
