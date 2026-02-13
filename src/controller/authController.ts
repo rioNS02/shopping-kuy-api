@@ -4,10 +4,10 @@ import bcrypt from "bcrypt";
 import z from "zod";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { UserSchema } from "../@types/userType";
+import { RegisterSchema } from "../@types/userType";
 
 export const register = async (req: Request, res: Response) => {
-  const parsed = UserSchema.safeParse(req.body);
+  const parsed = RegisterSchema.safeParse(req.body);
 
   // Validation parsing error
   if (!parsed.success) {
@@ -65,6 +65,6 @@ export const register = async (req: Request, res: Response) => {
       token,
     });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 };
