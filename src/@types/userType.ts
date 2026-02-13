@@ -8,7 +8,7 @@ export const UserBaseSchema = z.object({
   role: z.enum(["ADMIN", "CUSTOMER", "SELLER"]),
 });
 
-export const idUserSchema = UserBaseSchema.extend({
+export const idUserSchema = z.object({
   id: z.number().int().positive(),
 });
 
@@ -16,7 +16,7 @@ export const RegisterSchema = UserBaseSchema.extend({
   password: z.string().min(8),
 });
 
-export const loginSchema = UserBaseSchema.extend({
+export const loginSchema = z.object({
   username: z.string(),
-  passsword: z.string().min(8),
+  password: z.string().min(8),
 });
