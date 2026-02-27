@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { prisma } from "../application/database";
-import { idUserSchema } from "../@types/userType";
+import { idUserSchema, UserBaseSchema } from "../@types/userType";
 import { Prisma } from "../generated/prisma/client";
 
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -16,11 +16,12 @@ export const getAllUsers = async (req: Request, res: Response) => {
 };
 
 export const getUsersById = async (req: Request, res: Response) => {
-  const { id } = req.params;
   try {
+    const parsed = idUserSchema.parse(req.params);
+    const { id } = parsed;
     const users = await prisma.user.findUnique({
       where: {
-        id: Number(id),
+        id: id,
       },
     });
 
@@ -39,7 +40,7 @@ export const getUsersById = async (req: Request, res: Response) => {
 
 export const deleteUsersByUsername = async (req: Request, res: Response) => {
   try {
-    const parsed = idUserSchema.parse(req.params);
+    const parsed = UserBaseSchema.parse(req.params);
     const { username } = parsed;
     await prisma.user.delete({
       where: {
